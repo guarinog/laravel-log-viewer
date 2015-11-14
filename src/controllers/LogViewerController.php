@@ -54,6 +54,7 @@ class LogViewerController extends \Illuminate\Routing\Controller
             style="display: none; white-space: pre;">'.$l['stack'].'</div>';
                 unset($l['stack']);
             }
+            $l['id'] = $key;
             $log->push($l);
         }
 

@@ -68,6 +68,7 @@
             <table id="table-log" class="table table-striped">
                 <thead>
                 <tr>
+                    <th>id</th>
                     <th>Level</th>
                     <th>Date</th>
                     <th>Content</th>
@@ -76,6 +77,7 @@
                 <tbody>
                 @foreach($logs as $key => $log)
                     <tr>
+                        <td></td>
                         <td class="text-{{{$log['level_class']}}}">
                             <span class="glyphicon glyphicon-{{{$log['level_img']}}}-sign" aria-hidden="true"></span>
                             &nbsp;{{$log['level']}}</td>
@@ -109,17 +111,14 @@
 <script>
     $(document).ready(function () {
         $('#table-log').DataTable({
-            "order": [1, 'desc'],
             processing: true,
             serverSide: true,
             ajax: '{!! route('logviewer.data') !!}?l={{$l}}',
             columns: [
+                {data: 'id', name: 'id',"visible": false},
                 {data: 'level', name: 'level'},
                 {data: 'date', name: 'date'},
                 {data: 'text', name: 'text'}
-//                ,
-//                {data: 'created_at', name: 'created_at'},
-//                {data: 'updated_at', name: 'updated_at'}
             ]
         });
         $('.table-container').on('click', '.expand', function () {
