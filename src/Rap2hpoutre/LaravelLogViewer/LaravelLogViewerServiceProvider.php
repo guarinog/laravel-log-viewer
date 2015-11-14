@@ -19,7 +19,7 @@ class LaravelLogViewerServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		if (method_exists($this, 'package')) {
-			$this->package('rap2hpoutre/laravel-log-viewer', 'laravel-log-viewer', __DIR__ . '/../../');
+			$this->package('guarinog/laravel-log-viewer', 'laravel-log-viewer', __DIR__ . '/../../');
 		}
 
 		if (method_exists($this, 'loadViewsFrom')) {
