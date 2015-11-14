@@ -25,7 +25,6 @@ class LaravelLogViewer
         'error' => 'danger',
         'critical' => 'danger',
         'alert' => 'danger',
-        'emergency' => 'danger',
     ];
 
     private static $levels_imgs = [
@@ -36,10 +35,9 @@ class LaravelLogViewer
         'error' => 'warning',
         'critical' => 'warning',
         'alert' => 'warning',
-        'emergency' => 'warning',
     ];
 
-    const MAX_FILE_SIZE = 52428800; // Why? Uh... Sorry
+
 
     /**
      * @param string $file
@@ -69,18 +67,8 @@ class LaravelLogViewer
         $log_levels = self::getLogLevels();
 
         $pattern = '/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\].*/';
-        
-        if (!self::$file) {
-            $log_file = self::getFiles();
-            if(!count($log_file)) {
-                return [];
-            }
-            self::$file = $log_file[0];
-        }
 
-        if (File::size(self::$file) > self::MAX_FILE_SIZE) return null;
-
-        $file = File::get(self::$file);
+        $file = self::getCurrentFile();
 
         preg_match_all($pattern, $file, $headings);
 
@@ -126,13 +114,28 @@ class LaravelLogViewer
     {
         $files = glob(storage_path() . '/logs/*');
         $files = array_reverse($files);
-        $files = array_filter($files, 'is_file');
         if ($basename && is_array($files)) {
             foreach ($files as $k => $file) {
                 $files[$k] = basename($file);
             }
         }
-        return array_values($files);
+        return $files;
+    }
+
+    /**
+     * @return array
+     */
+    private static function getCurrentFile()
+    {
+        if (!self::$file) {
+            $log_file = self::getFiles();
+            if(!count($log_file)) {
+                return [];
+            }
+            self::$file = $log_file[0];
+        }
+
+        return File::get(self::$file);
     }
 
     /**
