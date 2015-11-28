@@ -116,7 +116,7 @@ class LaravelLogViewer
         $files = array_reverse($files);
         if ($basename && is_array($files)) {
             foreach ($files as $k => $file) {
-                if(is_file($files)) {
+                if(is_file($files) && !is_link($files)) {
                     $files[$k] = basename($file);
                 }
             }
