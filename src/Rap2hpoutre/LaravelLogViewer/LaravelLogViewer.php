@@ -44,8 +44,8 @@ class LaravelLogViewer
      */
     public static function setFile($file)
     {
-        if (File::exists(storage_path('logs') . $file)) {
-            self::$file = storage_path('logs') . $file;
+        if (File::exists(storage_path('logs') . DIRECTORY_SEPARATOR . $file)) {
+            self::$file = storage_path('logs') . DIRECTORY_SEPARATOR . $file;
         }
     }
 
@@ -112,11 +112,11 @@ class LaravelLogViewer
      */
     public static function getFiles($basename = false)
     {
-        $files = glob(storage_path('logs') . '*');
+        $files = glob(storage_path('logs') . DIRECTORY_SEPARATOR . '*');
         $files = array_reverse($files);
         if ($basename && is_array($files)) {
             foreach ($files as $k => $file) {
-                if(is_file($files) && !is_link($files)) {
+                if(is_file($file) && !is_link($files)) {
                     $files[$k] = basename($file);
                 }
             }
